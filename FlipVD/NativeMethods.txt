@@ -1,0 +1,11 @@
+﻿FindWindow
+SetParent
+GetWindowRect
+ScreenToClient
+SetWindowPos
+GetWindowLong
+SetWindowLong
+WINDOW_STYLE
+WINDOW_EX_STYLE
+SendInput
+VIRTUAL_KEY

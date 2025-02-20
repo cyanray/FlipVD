@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Color x:Key="BackgroundColor">#01FFFFFF</Color>
+	<Color x:Key="BorderBrushColor">#01FFFFFF</Color>
+	<Color x:Key="HoverBackgroundColor">#70FFFFFF</Color>
+	<Color x:Key="HoverBorderBrushColor">#11111111</Color>
+	<Color x:Key="ForegroundColor">#FF000000</Color>
+
+	<SolidColorBrush x:Key="BackgroundBrush"
+                     Color="{DynamicResource BackgroundColor}" />
+	<SolidColorBrush x:Key="BorderBrush"
+                     Color="{DynamicResource BorderBrushColor}" />
+	<SolidColorBrush x:Key="HoverBackgroundBrush"
+                     Color="{DynamicResource HoverBackgroundColor}" />
+	<SolidColorBrush x:Key="HoverBorderBrush"
+                     Color="{DynamicResource HoverBorderBrushColor}" />
+
+	<SolidColorBrush x:Key="ForegroundBrush"
+					 Color="{DynamicResource ForegroundColor}" />
+
+
+</ResourceDictionary>
