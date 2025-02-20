@@ -1,3 +1,3 @@
 ﻿# FlipVD
 
-Switch virtual desktops in the Windows 11 taskbar using the mouse wheel, just like GNOME.
+Switch virtual desktops using the mouse wheel on the taskbar in Windows 11, just like in GNOME.
