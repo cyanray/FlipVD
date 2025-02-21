@@ -2,19 +2,38 @@
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Windows.Controls;
 
 namespace FlipVD;
 
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application
+public partial class App : System.Windows.Application
 {
+    private NotifyIcon? m_TrayIcon;
+
+
     protected override void OnStartup(StartupEventArgs e)
     {
         bool Debug_DoNotMoveToTaskbar = false;
 
         base.OnStartup(e);
+
+        m_TrayIcon = new NotifyIcon
+        {
+            Icon = new Icon("Resources/Icon/Icon.ico"),
+            Visible = true,
+            Text = "FlipVD"
+        };
+
+
+        ContextMenuStrip menu = new ContextMenuStrip();
+        menu.Items.Add("Exit", null, ExitApplication);
+        m_TrayIcon.ContextMenuStrip = menu;
+
 
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         ApplyTheme();
@@ -29,6 +48,13 @@ public partial class App : Application
             mainWindow.MoveToTaskbar();
         }
 
+    }
+
+
+    private void ExitApplication(object? sender, EventArgs e)
+    {
+        m_TrayIcon?.Dispose();
+        Current.Shutdown();
     }
 
     private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
