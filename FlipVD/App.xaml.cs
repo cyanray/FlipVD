@@ -23,16 +23,17 @@ public partial class App : System.Windows.Application
         Stream? iconStream = GetResourceStream(new Uri($"pack://application:,,,/Resources/Icon/Icon.ico"))?.Stream;
         if (iconStream != null)
         {
-        m_TrayIcon = new NotifyIcon
-        {
+            m_TrayIcon = new NotifyIcon
+            {
                 Icon = new Icon(iconStream),
-            Visible = true,
-            Text = "FlipVD"
-        };
+                Visible = true,
+                Text = "FlipVD"
+            };
 
-        ContextMenuStrip menu = new ContextMenuStrip();
-        menu.Items.Add("Exit", null, ExitApplication);
-        m_TrayIcon.ContextMenuStrip = menu;
+            ContextMenuStrip menu = new ContextMenuStrip();
+            menu.Items.Add("About", null, (object? sender, EventArgs e) => { new AboutWindow().Show(); });
+            menu.Items.Add("Exit", null, ExitApplication);
+            m_TrayIcon.ContextMenuStrip = menu;
         }
 
 
