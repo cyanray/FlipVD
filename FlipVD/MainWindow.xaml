@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
         xmlns:local="clr-namespace:FlipVD"
         mc:Ignorable="d"
         Title="MainWindow"
@@ -38,17 +39,18 @@
                                     Value="{DynamicResource HoverBorderBrush}" />
                         </Trigger>
                     </Style.Triggers>
-                    
+
                 </Style>
             </Border.Style>
 
 
-            <TextBlock x:Name="NameOfVD"
-                       Text="Desktop ?"
-                       Foreground="{DynamicResource ForegroundBrush}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="14" />
+            <emoji:TextBlock x:Name="NameOfVD"
+                             Text="Desktop ?"
+                             FontFamily="Segoe UI Emoji,Microsoft YaHei"
+                             Foreground="{DynamicResource ForegroundBrush}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             FontSize="14" />
         </Border>
     </Grid>
 </Window>
