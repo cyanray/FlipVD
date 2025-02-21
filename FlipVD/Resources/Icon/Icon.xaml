@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="Window">
+        <Setter Property="Icon"
+                Value="pack://application:,,,/Resources/Icon/Icon.ico" />
+    </Style>
+
+</ResourceDictionary>

@@ -1,10 +1,7 @@
 ﻿using Microsoft.Win32;
-using System.Configuration;
-using System.Data;
 using System.Windows;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Windows.Controls;
+using System.IO;
+using System.Windows.Resources;
 
 namespace FlipVD;
 
@@ -22,17 +19,21 @@ public partial class App : System.Windows.Application
 
         base.OnStartup(e);
 
+
+        Stream? iconStream = GetResourceStream(new Uri($"pack://application:,,,/Resources/Icon/Icon.ico"))?.Stream;
+        if (iconStream != null)
+        {
         m_TrayIcon = new NotifyIcon
         {
-            Icon = new Icon("Resources/Icon/Icon.ico"),
+                Icon = new Icon(iconStream),
             Visible = true,
             Text = "FlipVD"
         };
 
-
         ContextMenuStrip menu = new ContextMenuStrip();
         menu.Items.Add("Exit", null, ExitApplication);
         m_TrayIcon.ContextMenuStrip = menu;
+        }
 
 
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
@@ -47,7 +48,6 @@ public partial class App : System.Windows.Application
         {
             mainWindow.MoveToTaskbar();
         }
-
     }
 
 
