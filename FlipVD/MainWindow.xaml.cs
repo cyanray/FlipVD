@@ -19,6 +19,8 @@ using SWP = Windows.Win32.UI.WindowsAndMessaging.SET_WINDOW_POS_FLAGS;
 using static FlipVD.KeyboardSimulation;
 using WindowsVirtualDesktopHelper.VirtualDesktopAPI;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
+using System.Reflection.Emit;
 
 namespace FlipVD;
 
@@ -27,19 +29,29 @@ namespace FlipVD;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private IVirtualDesktopManager? VirtualDesktopManager = null;
+    private IVirtualDesktopManager? m_VirtualDesktopManager = null;
+
+    private readonly DispatcherTimer m_VDChangedMonitor = new();
 
     public MainWindow()
     {
         InitializeComponent();
+        m_VDChangedMonitor.Interval = TimeSpan.FromMilliseconds(100);
+        m_VDChangedMonitor.Tick += OnVDChanged;
+        m_VDChangedMonitor.Start();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         string name = Loader.GetImplementationForOS();
-        VirtualDesktopManager = Loader.LoadImplementationWithFallback(name);
+        m_VirtualDesktopManager = Loader.LoadImplementationWithFallback(name);
 
-        NameOfVD.Text = VirtualDesktopManager?.CurrentDisplayName();
+        NameOfVD.Text = m_VirtualDesktopManager?.CurrentDisplayName();
+    }
+
+    private void OnVDChanged(object? sender, EventArgs e)
+    {
+        NameOfVD.Text = m_VirtualDesktopManager?.CurrentDisplayName();
     }
 
     public bool MoveToTaskbar()
@@ -60,12 +72,12 @@ public partial class MainWindow : Window
         int style = PInvoke.GetWindowLong(thisHandle, GWL.GWL_STYLE);
         style &= ~unchecked((int)Window_Style.WS_POPUP);
         style |= (int)Window_Style.WS_CHILD;
-        PInvoke.SetWindowLong(thisHandle, GWL.GWL_STYLE, style);
+        _ = PInvoke.SetWindowLong(thisHandle, GWL.GWL_STYLE, style);
 
         // Change window style to ToolWindow
         int exStyle = PInvoke.GetWindowLong(thisHandle, GWL.GWL_EXSTYLE);
         exStyle |= (int)Window_Ex_Style.WS_EX_TOOLWINDOW;
-        PInvoke.SetWindowLong(thisHandle, GWL.GWL_EXSTYLE, exStyle);
+        _ = PInvoke.SetWindowLong(thisHandle, GWL.GWL_EXSTYLE, exStyle);
 
         // Get rect of taskbar
         if (!PInvoke.GetWindowRect(taskbarHandle, out RECT taskbarRect))
@@ -99,15 +111,15 @@ public partial class MainWindow : Window
         if (delta > 0)
         {
             // KeyPress([KeyDef.Ctrl, KeyDef.LeftWin, KeyDef.LeftArrow]);
-            VirtualDesktopManager?.SwitchBackward();
+            m_VirtualDesktopManager?.SwitchBackward();
 
         }
         else
         {
             // KeyPress([KeyDef.Ctrl, KeyDef.LeftWin, KeyDef.RightArrow]);
-            VirtualDesktopManager?.SwitchForward();
+            m_VirtualDesktopManager?.SwitchForward();
         }
-        NameOfVD.Text = VirtualDesktopManager?.CurrentDisplayName();
+        NameOfVD.Text = m_VirtualDesktopManager?.CurrentDisplayName();
     }
 
     private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
