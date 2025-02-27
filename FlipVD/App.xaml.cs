@@ -31,6 +31,7 @@ public partial class App : System.Windows.Application
             };
 
             ContextMenuStrip menu = new ContextMenuStrip();
+            menu.Items.Add("Settings", null, (object? sender, EventArgs e) => { new SettingsWindow().Show(); });
             menu.Items.Add("About", null, (object? sender, EventArgs e) => { new AboutWindow().Show(); });
             menu.Items.Add("Exit", null, ExitApplication);
             m_TrayIcon.ContextMenuStrip = menu;
